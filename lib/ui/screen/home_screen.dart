@@ -1,4 +1,3 @@
-// import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cad/provider/components_provider.dart';
 import 'package:cad/ui/screen/result_screen.dart';
 import 'package:cad/ui/screen/set_component_screen.dart';
@@ -28,25 +27,30 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Provider.of<ComponentsProvider>(context).components.isEmpty
-                  ? const Center(child: Text('add some component'))
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: Provider.of<ComponentsProvider>(context)
-                          .components
-                          .length,
-                      itemBuilder: (_, index) => Dismissible(
-                        key: Key(index.toString()),
-                        child: GestureDetector(
-                          // onTap: () => onUpdate(context,index),
-                          child: ComponentCard(
-                              component:
-                                  Provider.of<ComponentsProvider>(context)
-                                      .components[index]),
+              Expanded(
+                child: Provider.of<ComponentsProvider>(context).components.isEmpty
+                    ? const Center(child: Text('add some component'))
+                    : SingleChildScrollView(
+                      child: ListView.builder(
+
+                          shrinkWrap: true,
+                          itemCount: Provider.of<ComponentsProvider>(context)
+                              .components
+                              .length,
+                          itemBuilder: (_, index) => Dismissible(
+                             key: UniqueKey(),
+                            child: GestureDetector(
+                              // onTap: () => onUpdate(context,index),
+                              child: ComponentCard(
+                                  component:
+                                      Provider.of<ComponentsProvider>(context)
+                                          .components[index]),
+                            ),
+                            onDismissed: (direction) => onDelete(context, index),
+                          ),
                         ),
-                        onDismissed: (direction) => onDelete(context, index),
-                      ),
                     ),
+              ),
               Row(
                 children: [
                   Expanded(
